@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>בוטיק הצבע | שירותי CNC וצבע לנגרים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=Noto+Serif+Hebrew:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black:   #0d0d0d;
+      --dark:    #1a1a1a;
+      --steel:   #2c2c2c;
+      --mid:     #3d3d3d;
+      --muted:   #888;
+      --light:   #c8c8c8;
+      --off:     #f2ede6;
+      --cream:   #faf7f2;
+      --white:   #ffffff;
+      --gold:    #c8a96e;
+      --gold2:   #a8893e;
+      --accent:  #e8b84b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+      animation: slideDown 0.7s ease both;
+    }
+    .logo {
+      display: flex; flex-direction: column; line-height: 1;
+    }
+    .logo-main {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--white); letter-spacing: 0.02em;
+    }
+    .logo-sub {
+      font-size: 0.65rem; letter-spacing: 0.35em;
+      color: var(--gold); text-transform: uppercase; margin-top: 0.2rem;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; letter-spacing: 0.12em;
+      text-decoration: none; color: var(--muted);
+      transition: color 0.25s; text-transform: uppercase;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--black);
+      border: none; cursor: pointer;
+      padding: 0.65rem 1.8rem;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+
+    /* Left panel — dark with text */
+    .hero-left {
+      background: var(--black);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 10rem 4rem 6rem;
+      position: relative; z-index: 2;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+    /* Diagonal cut */
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: -80px;
+      background: var(--black);
+      clip-path: polygon(0 0, 100% 0, calc(100% - 80px) 100%, 0 100%);
+      z-index: -1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 1.8rem;
+    }
+    .hero-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+
+    .hero h1 {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 600; line-height: 1.1;
+      margin-bottom: 1.8rem;
+    }
+    .hero h1 .accent { color: var(--gold); }
+
+    .hero-desc {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--muted); max-width: 420px;
+      margin-bottom: 3rem; font-weight: 300;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--black);
+      padding: 1rem 2.5rem;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-gold:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid var(--steel); color: var(--light);
+      padding: 1rem 2rem;
+      font-size: 0.85rem; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Right panel — CNC image feel with CSS */
+    .hero-right {
+      background: var(--steel);
+      position: relative; overflow: hidden;
+      animation: fadeIn 1.2s ease 0.4s both;
+    }
+    .hero-right-bg {
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 59px,
+          rgba(200,169,110,0.04) 59px, rgba(200,169,110,0.04) 60px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 59px,
+          rgba(200,169,110,0.04) 59px, rgba(200,169,110,0.04) 60px
+        ),
+        linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 50%, #1a1a1a 100%);
+    }
+    /* Large CNC icon */
+    .cnc-visual {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+    }
+    .cnc-letters {
+      font-family: 'Heebo', sans-serif;
+      font-size: clamp(6rem, 12vw, 14rem);
+      font-weight: 800; line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(200,169,110,0.3);
+      letter-spacing: -0.02em;
+      user-select: none;
+    }
+    .cnc-line {
+      width: 60%; height: 1px;
+      background: linear-gradient(to left, transparent, var(--gold), transparent);
+    }
+    .cnc-sub {
+      font-size: 0.7rem; letter-spacing: 0.5em;
+      color: rgba(200,169,110,0.5); text-transform: uppercase;
+    }
+
+    /* Stat badges */
+    .hero-stats {
+      position: absolute; bottom: 3rem; right: 2.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      z-index: 5;
+      animation: fadeUp 1s ease 0.8s both;
+    }
+    .stat-badge {
+      background: rgba(13,13,13,0.85);
+      border: 1px solid rgba(200,169,110,0.25);
+      backdrop-filter: blur(8px);
+      padding: 1rem 1.4rem;
+      text-align: left;
+    }
+    .stat-num {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1.8rem; color: var(--gold);
+      display: block; line-height: 1;
+    }
+    .stat-lbl { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
+
+    /* ── MARQUEE ── */
+    .marquee-bar {
+      background: var(--gold); padding: 0.7rem 0;
+      overflow: hidden; white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 16s linear infinite;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--black);
+    }
+    .marquee-inner span { margin: 0 2.5rem; opacity: 0.5; }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 8rem 4rem;
+      background: var(--dark);
+    }
+    .sec-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.42em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .sec-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+    .sec-title {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--white); margin-bottom: 5rem;
+    }
+    .sec-title em { font-style: italic; color: var(--gold); }
+
+    /* Big numbered service cards */
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--steel);
+    }
+    .svc-card {
+      background: var(--dark);
+      padding: 3.5rem 3rem;
+      position: relative; overflow: hidden;
+      transition: background 0.4s;
+    }
+    .svc-card:hover { background: var(--steel); }
+    .svc-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--gold);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.4s;
+    }
+    .svc-card:hover::before { transform: scaleX(1); transform-origin: left; }
+
+    .svc-bg-num {
+      position: absolute; top: -1.5rem; left: 1.5rem;
+      font-family: 'Heebo', sans-serif;
+      font-size: 8rem; font-weight: 800;
+      color: rgba(200,169,110,0.05); line-height: 1;
+      user-select: none;
+    }
+    .svc-icon { font-size: 2.2rem; margin-bottom: 1.5rem; display: block; }
+    .svc-name {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1.4rem; font-weight: 400;
+      color: var(--white); margin-bottom: 0.8rem;
+    }
+    .svc-desc { font-size: 0.9rem; line-height: 1.8; color: var(--muted); font-weight: 300; }
+    .svc-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem;
+    }
+    .tag {
+      background: rgba(200,169,110,0.1);
+      border: 1px solid rgba(200,169,110,0.2);
+      color: var(--gold); padding: 0.25rem 0.7rem;
+      font-size: 0.7rem; letter-spacing: 0.1em;
+    }
+
+    /* ── CATALOG STRIP ── */
+    .catalog {
+      padding: 7rem 4rem;
+      background: var(--black);
+    }
+    .catalog-layout {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: center;
+    }
+    .catalog-text {}
+    .catalog-title {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--white); margin-bottom: 1.5rem; margin-top: 1rem;
+    }
+    .catalog-title em { font-style: italic; color: var(--gold); }
+    .catalog-desc { font-size: 0.95rem; line-height: 1.9; color: var(--muted); font-weight: 300; margin-bottom: 2rem; }
+
+    /* Door type showcase */
+    .door-types {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
+    }
+    .door-type {
+      background: var(--steel);
+      border: 1px solid rgba(200,169,110,0.15);
+      padding: 1.8rem 1.2rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .door-type:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .door-svg {
+      width: 56px; height: 70px;
+      margin: 0 auto 1rem;
+      border: 2px solid rgba(200,169,110,0.5);
+      position: relative;
+    }
+    .door-svg::before {
+      content: '';
+      position: absolute; inset: 6px;
+      border: 1px solid rgba(200,169,110,0.3);
+    }
+    .door-type-name {
+      font-size: 0.75rem; letter-spacing: 0.12em;
+      color: var(--light); text-transform: uppercase;
+    }
+    .door-count {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1.1rem; color: var(--gold);
+      display: block; margin-top: 0.3rem;
+    }
+
+    /* ── PROCESS ── */
+    .process {
+      padding: 7rem 4rem;
+      background: var(--dark);
+    }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 0; margin-top: 5rem;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 2rem; right: 12.5%; left: 12.5%;
+      height: 1px;
+      background: linear-gradient(to left, transparent, var(--gold), transparent);
+    }
+    .p-step { text-align: center; padding: 0 1.5rem; }
+    .p-dot {
+      width: 4rem; height: 4rem;
+      border: 1px solid rgba(200,169,110,0.4);
+      background: var(--dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.8rem;
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1.1rem; color: var(--gold);
+      position: relative; z-index: 2;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .p-step:hover .p-dot { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    .p-step h4 { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; }
+    .p-step p { font-size: 0.85rem; line-height: 1.75; color: var(--muted); font-weight: 300; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--gold);
+      padding: 4rem;
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 2rem; text-align: center;
+    }
+    .stat-item-num {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 3.2rem; font-weight: 600;
+      color: var(--black); display: block; line-height: 1;
+    }
+    .stat-item-lbl {
+      font-size: 0.8rem; letter-spacing: 0.18em;
+      color: rgba(0,0,0,0.55); text-transform: uppercase; margin-top: 0.4rem;
+      display: block;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 8rem 4rem;
+      background: var(--black);
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 400px;
+      background: radial-gradient(ellipse, rgba(200,169,110,0.06) 0%, transparent 70%);
+    }
+    .cta-inner {
+      max-width: 700px; margin: 0 auto;
+      text-align: center; position: relative;
+    }
+    .cta-inner .sec-eyebrow { justify-content: center; }
+    .cta-title {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 400; line-height: 1.1;
+      color: var(--white); margin: 1rem 0 1.5rem;
+    }
+    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-desc { font-size: 1rem; line-height: 1.8; color: var(--muted); font-weight: 300; margin-bottom: 3rem; }
+
+    .cta-contact {
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    }
+    .phone-big {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      color: var(--white); text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.3s;
+    }
+    .phone-big:hover { color: var(--gold); }
+    .phone-label { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--muted); text-transform: uppercase; }
+    .cta-name { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+
+    .cta-btns { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(200,169,110,0.1);
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.75rem; letter-spacing: 0.08em; color: var(--mid);
+    }
+    .footer-logo-txt {
+      font-family: 'Noto Serif Hebrew', serif;
+      font-size: 1rem; color: rgba(255,255,255,0.5);
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { color: var(--mid); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.22s; }
+    .d3 { transition-delay: 0.34s; }
+
+    /* ── KEYFRAMES ── */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(36px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 7rem 1.8rem 3rem; }
+      .hero-left::after { display: none; }
+      .hero-right { height: 55vw; }
+      .services, .catalog, .process, .cta-section { padding: 4rem 1.8rem; }
+      .svc-grid { grid-template-columns: 1fr; }
+      .catalog-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .door-types { grid-template-columns: repeat(2,1fr); }
+      .process-steps { grid-template-columns: repeat(2,1fr); }
+      .process-steps::before { display: none; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); padding: 3rem 1.8rem; }
+      .hero-stats { display: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">
+      <span class="logo-main">בוטיק הצבע</span>
+      <span class="logo-sub">שירותי CNC וצבע לנגרים</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#services">שירותים</a></li>
+      <li><a href="#catalog">קטלוג</a></li>
+      <li><a href="#process">תהליך</a></li>
+      <li><a href="#contact">צור קשר</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">קבל הצעת מחיר</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">שירותי CNC וצבע לנגרים</div>
+      <h1>
+        דיוק. <span class="accent">מקצועיות.</span><br/>
+        תוצאה שמדברת<br/>
+        בעד עצמה.
+      </h1>
+      <p class="hero-desc">
+        בוטיק הצבע מספק שירותי חריטה CNC מתקדמת וצביעה מקצועית לנגרים, קבלנים ומעצבים. עבודה מדויקת, חומרים איכותיים, זמני אספקה קצרים.
+      </p>
+      <div class="hero-btns">
+        <a class="btn-gold" href="tel:+972525904400">📞 התקשר לרמי</a>
+        <a class="btn-ghost" href="#services">הכירו את השירותים</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <div class="cnc-visual">
+        <div class="cnc-letters">CNC</div>
+        <div class="cnc-line"></div>
+        <div class="cnc-sub">Computer Numerical Control</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-badge">
+          <span class="stat-num">100+</span>
+          <span class="stat-lbl">דגמי חריטה</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-num">24/48</span>
+          <span class="stat-lbl">שעות אספקה</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar">
+    <div class="marquee-inner">
+      חריטת CNC <span>✦</span> צביעת MDF <span>✦</span> דגמי חריטה <span>✦</span> מסגרות <span>✦</span> מילואה <span>✦</span> אנגליים <span>✦</span> יוקרה <span>✦</span> פרופיל בולט <span>✦</span>
+      חריטת CNC <span>✦</span> צביעת MDF <span>✦</span> דגמי חריטה <span>✦</span> מסגרות <span>✦</span> מילואה <span>✦</span> אנגליים <span>✦</span> יוקרה <span>✦</span> פרופיל בולט <span>✦</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="reveal">
+      <div class="sec-eyebrow">מה אנחנו מציעים</div>
+      <h2 class="sec-title">שירותים <em>מקצועיים</em><br/>לכל פרויקט נגרות</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <span class="svc-bg-num">01</span>
+        <span class="svc-icon">⚙️</span>
+        <h3 class="svc-name">חריטת CNC</h3>
+        <p class="svc-desc">חריטה ממוחשבת בדיוק גבוה על MDF ועץ. מאות דגמים מוכנים — חריטה, מסגרות, מילואה, אנגליים ועוד — לפי מידה ודרישה.</p>
+        <div class="svc-tags">
+          <span class="tag">דיוק מלא</span>
+          <span class="tag">כל עובי</span>
+          <span class="tag">לפי מידה</span>
+        </div>
+      </div>
+      <div class="svc-card reveal d1">
+        <span class="svc-bg-num">02</span>
+        <span class="svc-icon">🎨</span>
+        <h3 class="svc-name">צביעה מקצועית</h3>
+        <p class="svc-desc">צביעת MDF ועץ בגימורים שונים — מט, סאטן, בריק. כל צבע RAL או NCS. ייבוש מהיר ואחידות מושלמת לאורך שנים.</p>
+        <div class="svc-tags">
+          <span class="tag">כל גוון</span>
+          <span class="tag">RAL / NCS</span>
+          <span class="tag">גימור מושלם</span>
+        </div>
+      </div>
+      <div class="svc-card reveal d2">
+        <span class="svc-bg-num">03</span>
+        <span class="svc-icon">📐</span>
+        <h3 class="svc-name">שירותי עיצוב וייעוץ</h3>
+        <p class="svc-desc">עוזרים לבחור את דגם החריטה הנכון, הגימור המתאים ועובי הדלת — לפי הפרויקט, התקציב וסגנון הלקוח הסופי.</p>
+        <div class="svc-tags">
+          <span class="tag">ייעוץ חינם</span>
+          <span class="tag">מדגמים</span>
+          <span class="tag">התאמה אישית</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <section class="catalog" id="catalog">
+    <div class="catalog-layout">
+      <div class="catalog-text reveal">
+        <div class="sec-eyebrow">קטלוג דגמים</div>
+        <h2 class="catalog-title">מאות דגמים<br/><em>לכל סגנון</em></h2>
+        <p class="catalog-desc">
+          קטלוג הדגמים שלנו כולל עשרות סדרות שונות — מהקלאסי הקצוע ועד לפרופיל הבולט המודרני. כל דגם זמין בעוביים ומידות שונות לפי הצורך.
+        </p>
+        <a class="btn-gold" href="tel:+972525904400" style="font-size:0.8rem; padding:0.85rem 2rem;">📞 לקטלוג מלא — התקשר</a>
+      </div>
+      <div class="door-types reveal d1">
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">חריטה</div>
+          <span class="door-count">9+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg" style="border-radius: 0;"></div>
+          <div class="door-type-name">מסגרות</div>
+          <span class="door-count">6+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">מילואה</div>
+          <span class="door-count">6+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">אנגליים</div>
+          <span class="door-count">9+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">פרופיל בולט</div>
+          <span class="door-count">9+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">יוקרה</div>
+          <span class="door-count">9+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">דגמי זגוגית</div>
+          <span class="door-count">6+ דגמים</span>
+        </div>
+        <div class="door-type">
+          <div class="door-svg"></div>
+          <div class="door-type-name">דלתות מחולקות</div>
+          <span class="door-count">מגוון</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="reveal">
+      <div class="sec-eyebrow">תהליך העבודה</div>
+      <h2 class="sec-title">פשוט, מהיר,<br/><em>מדויק</em></h2>
+    </div>
+    <div class="process-steps">
+      <div class="p-step reveal">
+        <div class="p-dot">01</div>
+        <h4>יצירת קשר</h4>
+        <p>מתקשרים לרמי, שולחים פרטים ומקבלים ייעוץ מקצועי ללא עלות.</p>
+      </div>
+      <div class="p-step reveal d1">
+        <div class="p-dot">02</div>
+        <h4>בחירת דגם</h4>
+        <p>בוחרים מהקטלוג או מגדירים דגם מותאם אישית לפי הצורך.</p>
+      </div>
+      <div class="p-step reveal d2">
+        <div class="p-dot">03</div>
+        <h4>ייצור ועיבוד</h4>
+        <p>חריטת CNC בדיוק מלא וצביעה בגימור הנבחר — מהיר ואיכותי.</p>
+      </div>
+      <div class="p-step reveal d3">
+        <div class="p-dot">04</div>
+        <h4>אספקה מהירה</h4>
+        <p>קבלת המוצר המוכן, מוכן להרכבה, בזמן שסוכם.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="reveal">
+      <span class="stat-item-num">100+</span>
+      <span class="stat-item-lbl">דגמי חריטה</span>
+    </div>
+    <div class="reveal d1">
+      <span class="stat-item-num">24h</span>
+      <span class="stat-item-lbl">זמן אספקה מהיר</span>
+    </div>
+    <div class="reveal d2">
+      <span class="stat-item-num">∞</span>
+      <span class="stat-item-lbl">גוונים זמינים</span>
+    </div>
+    <div class="reveal d3">
+      <span class="stat-item-num">100%</span>
+      <span class="stat-item-lbl">שביעות רצון</span>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-inner reveal">
+      <div class="sec-eyebrow">בואו נתחיל</div>
+      <h2 class="cta-title">מוכנים<br/>לפרויקט <em>הבא?</em></h2>
+      <p class="cta-desc">
+        צרו קשר עם רמי עוד היום — קבלו ייעוץ מקצועי, מדגמים והצעת מחיר מהירה.
+      </p>
+      <div class="cta-contact">
+        <span class="phone-label">רמי — בוטיק הצבע</span>
+        <a class="phone-big" href="tel:+972525904400">052-590-4400</a>
+        <div class="cta-btns">
+          <a class="btn-gold" href="tel:+972525904400">📞 התקשר עכשיו</a>
+          <a class="btn-ghost" href="https://wa.me/972525904400" target="_blank">💬 וואטסאפ</a>
+        </div>
+        <span class="cta-name" style="margin-top:1.5rem; font-size:0.78rem; color: rgba(255,255,255,0.2);">
+          זמינים בימים א׳–ה׳ · שירות מקצועי ומהיר
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo-txt">בוטיק הצבע</div>
+    <div class="footer-links">
+      <a href="#services">שירותים</a>
+      <a href="#catalog">קטלוג</a>
+      <a href="#process">תהליך</a>
+      <a href="#contact">צור קשר</a>
+    </div>
+    <div>© 2025 בוטיק הצבע — רמי. כל הזכויות שמורות.</div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
